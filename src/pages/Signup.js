@@ -45,7 +45,7 @@ export default class Signup extends React.Component {
   }
 
   onSuccess() {
-    this.setState({ emailSentTo: this.state.email })
+    this.setState({ emailSentTo: this.state.email });
     this.setState({ email: '', password: '', name: '', company: '' });
   }
 
@@ -76,7 +76,7 @@ export default class Signup extends React.Component {
             </form>
             <Link to="/login">Already a user? Log in here</Link>
             {error && <p>{error.toString()}</p>}
-            {data && <div><p>Signup success, confirmation has been sent to <i>{this.state.emailSentTo}</i></p><Link to="/login">Login Here</Link></div>}
+            {data && <div><p>Signup success, confirmation has been sent to <i>{this.state.emailSentTo}</i></p>Go <Link to="/login">here</Link> to login</div>}
           </CenterOnPage>
         )}
       </Mutation>

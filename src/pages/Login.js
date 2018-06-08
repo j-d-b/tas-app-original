@@ -70,12 +70,13 @@ export default class Login extends React.Component {
                     </div>
                     <div>
                       Password
-                      <input name="password" type="text" value={this.state.password} onChange={this.updateInput} />
+                      <input name="password" type="password" value={this.state.password} onChange={this.updateInput} required />
+                      {this.state.password}
                     </div>
                     <input type="submit" value="Login" />
+                    <a href="">Forgot password?</a>
                   </form>
-                  <Link to="/signup">New user? Register here</Link>
-                  <div><a href="">forgot password?</a></div>
+                  New user? <Link to="/signup">Register here</Link>
                   {error && <p>{error.toString()}</p>}
                   {data && <p>Login success</p>}
                 </div>
