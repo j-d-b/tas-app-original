@@ -4,12 +4,16 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const CenterOnPage = styled.div`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+import { FormPage, FormBox, FormTitle, FormInput, FormSubmit, LineAfter } from '../components/Form';
+import Logo from '../components/Logo';
+
+const LoginLink = styled(Link)`
+  font-weight: 600;
+  color: #fff;
+
+  &:hover {
+    color: #efefef;
+  }
 `;
 
 const signupMutation = gql`
@@ -53,31 +57,24 @@ export default class Signup extends React.Component {
     return (
       <Mutation mutation={signupMutation} onCompleted={this.onSuccess}>
         {(addUser, { error, data }) => (
-          <CenterOnPage>
-            <h3>Sign up</h3>
-            <form onSubmit={e => this.handleSubmit(addUser, e)}>
-              <div>
-                Full Name
-                <input name="name" type="text" value={this.state.name} onChange={this.updateInput} />
-              </div>
-              <div>
-                Email
-                <input name="email" type="text" value={this.state.email} onChange={this.updateInput} />
-              </div>
-              <div>
-                Password
-                <input name="password" type="text" value={this.state.password} onChange={this.updateInput} />
-              </div>
-              <div>
-                Company
-                <input name="company" type="text" value={this.state.company} onChange={this.updateInput} />
-              </div>
-              <input type="submit" value="Signup" />
-            </form>
-            <Link to="/login">Already a user? Log in here</Link>
-            {error && <p>{error.toString()}</p>}
-            {data && <div><p>Signup success, confirmation has been sent to <i>{this.state.emailSentTo}</i></p>Go <Link to="/login">here</Link> to login</div>}
-          </CenterOnPage>
+          <FormPage>
+            <Logo />
+            <FormBox>
+              <FormTitle>Sign Up</FormTitle>
+
+              <form onSubmit={e => this.handleSubmit(addUser, e)}>
+                <FormInput name="name" type="text" value={this.state.name} placeholder="Full Name" onChange={this.updateInput} />
+                <FormInput name="email" type="email" value={this.state.email} placeholder="Email Address" onChange={this.updateInput} />
+                <FormInput name="password" type="password" value={this.state.password} placeholder="Password" onChange={this.updateInput} />
+                <FormInput name="company" type="text" value={this.state.company} placeholder="Company" onChange={this.updateInput} />
+                <FormSubmit type="submit" value="Sign Up" />
+              </form>
+
+              {data && <div><p>Signup success, confirmation has been sent to <i>{this.state.emailSentTo}</i></p>Go <Link to="/login">here</Link> to login</div>}
+              {error && <p>{error.toString()}</p>}
+            </FormBox>
+            <LineAfter>Already a user? <LoginLink to="/login">Log In</LoginLink></LineAfter>
+          </FormPage>
         )}
       </Mutation>
     );

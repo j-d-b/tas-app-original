@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import ResetPass from './pages/ResetPass';
 import Dashboard from './pages/Dashboard';
 import Scheduler from './pages/Scheduler';
 import Admin from './pages/Admin';
@@ -14,7 +15,7 @@ import NotFound from './pages/NotFound';
 import NoAccess from './pages/NoAccess';
 
 const PageBody = styled.div`
-  background-color: #eee;
+  height: 100vh;
 `;
 
 // wraps react-router Route component
@@ -45,7 +46,8 @@ export default class Router extends React.Component {
           <Switch>
             <Route exact path="/" render={() => this.props.auth.isAuthenticated() ? getHomeRoute(this.props.auth) : <Redirect to="/login" />} />
             <Route path="/signup" component={Signup} />
-            <Route path="/login" render={() => <Login auth={this.props.auth} />} />
+            <Route path="/login" render={() => this.props.auth.isAuthenticated() ? getHomeRoute(this.props.auth) : <Login auth={this.props.auth} />} />
+            <Route path="/reset-password" component={ResetPass} />
             <PrivateRoute path="/dashboard" component={Dashboard} auth={this.props.auth} requiredRole="operator" />
             <PrivateRoute path="/scheduler" component={Scheduler} auth={this.props.auth} />
             <PrivateRoute path="/admin" component={Admin} auth={this.props.auth} requiredRole="admin" />

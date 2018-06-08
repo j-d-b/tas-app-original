@@ -43,9 +43,9 @@ export default function AppointmentList({ where }) {
 
         if (singleAppt && data.appt) return <Appointment apptInfo={data.appt} />;
 
-        if (!data.appts) return <p>No matching appointments 😖</p>;
-
-        return data.appts.map(appt => <Appointment key={appt.id} apptInfo={appt} />);
+        if (data.appts.length) return data.appts.map(appt => <Appointment key={appt.id} apptInfo={appt} />);
+        
+        return <p>No appointments</p>;
       }}
     </Query>
   );

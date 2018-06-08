@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ApptBox = styled.div`
-  border: 1px solid #000;
   border-radius: 5px;
   margin: 10px;
   padding: 10px;
+  background-color: thistle;
 `;
 
 const ApptField = styled.span`

@@ -5,13 +5,27 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import Box from '../components/Box';
+import { FormPage, FormBox, FormTitle, FormInput, FormSubmit, LineAfter } from '../components/Form';
+import Logo from '../components/Logo';
 
-const CenterOnPage = styled.div`
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+const ForgotPassLink = styled(Link)`
+  margin-top: 0.9rem;
+  display: block;
+  font-size: 0.85rem;
+  color: #999;
+
+  &:hover {
+    color: #888;
+  }
+`;
+
+const SignupLink = styled(Link)`
+  font-weight: 600;
+  color: #fff;
+
+  &:hover {
+    color: #efefef;
+  }
 `;
 
 const loginMutation = gql`
@@ -19,24 +33,6 @@ const loginMutation = gql`
     login(email: $email, password: $password)
   }
 `;
-
-const CurrentStatus = ({ auth }) => {
-  const isAuth = auth.isAuthenticated();
-  if (isAuth) {
-    return (
-      <Box textAlign="center">
-        <h4>You are logged in as <i>{auth.getUser()}</i></h4>
-        <Link to="/">Go to TAS App</Link>
-        <div>
-          <button onClick={auth.logout}>Logout</button>
-        </div>
-      </Box>
-    );
-  }
-
-  return isAuth ? <div>You are already logged in</div> : null;
-};
-
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -58,30 +54,23 @@ export default class Login extends React.Component {
     return (
       <Mutation mutation={loginMutation} onCompleted={({ login }) => this.props.auth.login(login)}>
         {(login, { error, data }) => (
-          <CenterOnPage>
-            {this.props.auth.isAuthenticated()
-              ? <CurrentStatus auth={this.props.auth} />
-              : <div>
-                  <h3>Login</h3>
-                  <form onSubmit={e => this.handleSubmit(login, e)}>
-                    <div>
-                      Email
-                      <input name="email" type="text" value={this.state.email} onChange={this.updateInput} />
-                    </div>
-                    <div>
-                      Password
-                      <input name="password" type="password" value={this.state.password} onChange={this.updateInput} required />
-                      {this.state.password}
-                    </div>
-                    <input type="submit" value="Login" />
-                    <a href="">Forgot password?</a>
-                  </form>
-                  New user? <Link to="/signup">Register here</Link>
-                  {error && <p>{error.toString()}</p>}
-                  {data && <p>Login success</p>}
-                </div>
-            }
-          </CenterOnPage>
+          <FormPage>
+            <Logo />
+            <FormBox>
+              <FormTitle>Log In</FormTitle>
+
+              <form onSubmit={e => this.handleSubmit(login, e)}>
+                <FormInput name="email" type="email" value={this.state.email} placeholder="Email Address" onChange={this.updateInput} required/>
+                <FormInput name="password" type="password" value={this.state.password} placeholder="Password" onChange={this.updateInput} required />
+                <FormSubmit type="submit" value="Log In" />
+                <ForgotPassLink to="/reset-password">Forgot password?</ForgotPassLink>
+              </form>
+
+              {error && <p>{error.toString()}</p>}
+              {data && <p>Log in successful, redirecting...</p>}
+            </FormBox>
+            <LineAfter>Don't have an account? <SignupLink to="/signup">Sign Up</SignupLink></LineAfter>
+          </FormPage>
         )}
       </Mutation>
     );
