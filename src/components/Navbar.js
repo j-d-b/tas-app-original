@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const NavCont = styled.div`
   display: flex;
-  background-color: limegreen;
+  background-color: ${props => props.theme.main};
   height: 50px;
 `;
 
@@ -32,8 +32,12 @@ const NavLink = styled(Link)`
   }
 `;
 
+
 export default function Navbar(props) {
   if (!props.auth.isAuthenticated()) return null;
+
+  const path = window.location.pathname;
+  if (path === '/login' || path === '/signup') return null;
 
   return (
     <NavCont>

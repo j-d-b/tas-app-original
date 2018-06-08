@@ -15,6 +15,8 @@ const Box = styled.div`
   margin-left: ${props => props.m || props.mx || props.ml};
 
   background-color: ${props => props.bgColor};
+
+  text-align: ${props => props.textAlign};
 `;
 
 export default Box;

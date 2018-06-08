@@ -1,7 +1,8 @@
 import React from 'react';
 
-import Box from '../components/Box.js';
-import AppointmentList from '../components/AppointmentList.js';
+import { FlexBox, FlexItem } from '../components/Flex';
+import Box from '../components/Box';
+import AppointmentList from '../components/AppointmentList';
 
 class Scheduler extends React.Component {
   constructor() {

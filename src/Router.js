@@ -3,17 +3,23 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Navbar from './components/Navbar';
-import Scheduler from './pages/Scheduler';
+
+import Signup from './pages/Signup';
 import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Scheduler from './pages/Scheduler';
 import Admin from './pages/Admin';
 import Settings from './pages/Settings';
-import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
+import NoAccess from './pages/NoAccess';
 
 const PageBody = styled.div`
   background-color: #eee;
 `;
 
+// wraps react-router Route component
+// checks auth and redirects to login page if not authenticated
+// checks user role and disallows access to certain pages
 function PrivateRoute({ component: Component, ...rest }) {
   const isAuth = rest.auth.isAuthenticated();
 
@@ -21,13 +27,13 @@ function PrivateRoute({ component: Component, ...rest }) {
     return <Route {...rest} render={props => isAuth ? <Component {...rest} /> : <Redirect to="/login" />} />
   };
 
-  return <Route {...rest} render={props => isAuth && rest.auth.isAuthorized(rest.requiredRole) ? <Component {...rest} /> : <h1>No Access</h1>} />;
+  return <Route {...rest} render={props => rest.auth.isAuthorized(rest.requiredRole) ? <Component {...rest} /> : <NoAccess />} />;
 }
 
-function routeHome(auth) {
+// returns a Redirect to the users home route given user role
+function getHomeRoute(auth) {
   const role = auth.getRole();
-  if (role !== 'customer') return <Redirect to="/dashboard" />;
-  return <Redirect to="/scheduler" />;
+  return (role !== 'customer') ? <Redirect to="/dashboard" /> : <Redirect to="/scheduler" />;
 }
 
 export default class Router extends React.Component {
@@ -37,7 +43,8 @@ export default class Router extends React.Component {
         <PageBody>
           <Navbar auth={this.props.auth} />
           <Switch>
-            <Route exact path="/" render={() => this.props.auth.isAuthenticated() ? routeHome(this.props.auth) : <Redirect to="/login" />} />
+            <Route exact path="/" render={() => this.props.auth.isAuthenticated() ? getHomeRoute(this.props.auth) : <Redirect to="/login" />} />
+            <Route path="/signup" component={Signup} />
             <Route path="/login" render={() => <Login auth={this.props.auth} />} />
             <PrivateRoute path="/dashboard" component={Dashboard} auth={this.props.auth} requiredRole="operator" />
             <PrivateRoute path="/scheduler" component={Scheduler} auth={this.props.auth} />

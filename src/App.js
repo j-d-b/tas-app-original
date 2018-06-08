@@ -11,7 +11,7 @@ import Router from './Router';
 import Auth from './Auth';
 
 const theme = {
-  main: '#365AA1',
+  main: 'limegreen',
   light: '#52A4E6',
   accent: 'tomato',
   navBreakpoint: '620px'

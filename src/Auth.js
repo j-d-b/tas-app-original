@@ -21,6 +21,11 @@ export default class Auth {
     return jwtDecode(token).role;
   }
 
+  getUser() {
+    const token = window.localStorage.getItem('token');
+    return jwtDecode(token).email;
+  }
+
   // checks if user role matches/is above requiredRole
   isAuthorized(requiredRole) {
     const userRole = this.getRole();
