@@ -5,7 +5,7 @@ import Box from '../components/Box';
 import AppointmentList from '../components/AppointmentList';
 
 class Dashboard extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
     this.state = { where: {}, query: {} };
     this.sendQuery = this.sendQuery.bind(this);
@@ -15,11 +15,10 @@ class Dashboard extends React.Component {
     let where = {};
     try {
       where = JSON.parse(this.queryVal.value);
-    }
-    catch(error) {
+    } catch(error) {
       console.log('JSON parsing error: ' + error);
     }
-    this.setState({ where: where });
+    this.setState({ where });
   }
 
   render() {

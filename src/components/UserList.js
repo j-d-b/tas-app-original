@@ -30,15 +30,12 @@ const UserItem = ({ userInfo }) => (
   </UserBox>
 );
 
-export default function UserList() {
-  return (
-    <Query query={getUsers}>
-      {({ loading, error, data }) => {
-        if (loading) return <p>Loading...</p>;
-        if (error) return <p>{error.toString()}</p>;
-
-        return data.users.map(user => <UserItem key={user.email} userInfo={user} />);
-      }}
-    </Query>
-  );
-};
+export default () => (
+  <Query query={getUsers}>
+    {({ loading, error, data }) => {
+      if (loading) return <p>Loading...</p>;
+      if (error) return <p>{error.toString()}</p>;
+      return data.users.map(user => <UserItem key={user.email} userInfo={user} />);
+    }}
+  </Query>
+);

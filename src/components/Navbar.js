@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const NavCont = styled.div`
+const NavContainer = styled.div`
   display: flex;
   background-color: ${props => props.theme.main};
   height: 50px;
@@ -17,34 +17,27 @@ const NavLink = styled(Link)`
   text-decoration: none;
   color: #fff;
   background-color: ${
-    props => {
-      if (props.to) {
-        const primaryPath = '/' + window.location.pathname.split('/')[1];
-        if (props.to === primaryPath) {
-          return props.theme.light;
-        }
+    (props) => {
+      const primaryPath = window.location.pathname;
+      if (props.to === primaryPath) {
+        return props.theme.dark;
       }
     }
   };
 
   &:hover {
-    background-color: ${props => props.theme.light};
+    background-color: ${props => props.theme.dark};
   }
 `;
 
-
-export default function Navbar(props) {
-  if (!props.auth.isAuthenticated()) return null;
-
-  const path = window.location.pathname;
-  if (path === '/login' || path === '/signup') return null;
-
+export default function Navbar({ auth }) {
   return (
-    <NavCont>
-      {props.auth.isAuthorized('operator') && <NavLink to="/dashboard">Dashboard</NavLink>}
+    <NavContainer>
+      {auth.isAuthorized('OPERATOR') && <NavLink to="/dashboard">Dashboard</NavLink>}
       <NavLink to="/scheduler">Scheduler</NavLink>
-      {props.auth.isAuthorized('admin') && <NavLink to="/admin">Admin</NavLink>}
+      {auth.isAuthorized('OPERATOR') && <NavLink to="/config">Config</NavLink>}
+      {auth.isAuthorized('ADMIN') && <NavLink to="/admin">Admin</NavLink>}
       <NavLink to="/settings">Settings</NavLink>
-    </NavCont>
+    </NavContainer>
   );
 };

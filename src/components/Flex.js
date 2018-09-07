@@ -6,6 +6,9 @@ const FlexBox = styled.div`
   flex-wrap: ${props => props.wrap};
   justify-content: ${props => props.justify};
   align-items: ${props => props.alignItems};
+
+  width: ${props => props.width};
+  height: ${props => props.height};
 `;
 
 const FlexItem = styled.div`

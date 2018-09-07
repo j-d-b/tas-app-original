@@ -12,14 +12,11 @@ const ApptField = styled.span`
   padding: 10px;
 `;
 
-const Appointment = ({ apptInfo }) => (
+export default ({ apptInfo }) => (
   <ApptBox>
-    <ApptField><strong>ID:</strong> {apptInfo.id}</ApptField>
-    <ApptField><strong>User:</strong> {apptInfo.user}</ApptField>
+    <ApptField><strong>Name:</strong> {apptInfo.user.name}</ApptField>
     <ApptField><strong>Time:</strong> {apptInfo.time}</ApptField>
     <ApptField><strong>Block:</strong> {apptInfo.block}</ApptField>
     <ApptField><strong>Type:</strong> {apptInfo.type}</ApptField>
   </ApptBox>
 );
-
-export default Appointment;

@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
 
-// colored page for login, signup, reset password pages; base container
+import { remToPx } from '../helpers';
+
+// colored background page for login, signup, reset password pages; base container
 const FormPage = styled.div`
   height: 100%;
   width: 100%;
-  padding-top: 6vh;
   font-size: 0.95rem;
   text-align: center;
   background-color: ${props => props.theme.main};
@@ -17,10 +18,13 @@ const FormBox = styled.div`
   margin-left: auto;
   margin-right: auto;
   max-width: 400px;
-  border-radius: 5px;
   background-color: #fefefe;
   text-align: center;
   padding: 2rem 2rem 1.5rem 2rem;
+
+  @media (min-width: ${401 + remToPx(4)}px) {
+    border-radius: 5px;
+  }
 `;
 
 // within the form box title (e.g. Log In, Sign Up)
@@ -51,7 +55,7 @@ const FormInput = styled.input`
   }
 `;
 
-// form submit button (input)
+// form submit button (<input>)
 const FormSubmit = styled.input`
   width: 100%;
   border-radius: 3px;
@@ -70,10 +74,11 @@ const FormSubmit = styled.input`
 `;
 
 // styled line after the form box content
-const LineAfter = styled.div`
+const FormLineAfter = styled.div`
   margin-top: 1rem;
+  margin-bottom: 1rem;
   color: #fff;
   font-size: 0.8rem;
 `;
 
-export { FormPage, FormBox, FormTitle, FormInput, FormSubmit, LineAfter };
+export { FormPage, FormBox, FormTitle, FormInput, FormSubmit, FormLineAfter };

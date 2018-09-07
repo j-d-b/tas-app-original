@@ -35,17 +35,12 @@ function ProfileContainer({ userInfo }) {
   );
 }
 
-export default class Profile extends React.Component {
-  render() {
-    return (
-      <Query query={meQuery}>
-        {({ loading, error, data }) => {
-          if (loading) return <p>Loading...</p>;
-          if (error) return <p>{error.toString()}</p>;
-
-          return <ProfileContainer userInfo={data.me} />;
-        }}
-      </Query>
-    );
-  }
-}
+export default () => (
+  <Query query={meQuery}>
+    {({ loading, error, data }) => {
+      if (loading) return <p>Loading...</p>;
+      if (error) return <p>{error.toString()}</p>;
+      return <ProfileContainer userInfo={data.me} />;
+    }}
+  </Query>
+);

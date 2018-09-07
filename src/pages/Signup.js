@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import { FormPage, FormBox, FormTitle, FormInput, FormSubmit, LineAfter } from '../components/Form';
+import { FormPage, FormBox, FormTitle, FormInput, FormSubmit, FormLineAfter } from '../components/Form';
 import Logo from '../components/Logo';
 
 const LoginLink = styled(Link)`
@@ -22,9 +22,9 @@ const signupMutation = gql`
   }
 `;
 
-export default class Signup extends React.Component {
-  constructor(props) {
-    super(props);
+class Signup extends React.Component {
+  constructor() {
+    super();
     this.state = { email: '', password: '', name: '', company: '', emailSentTo: '' };
     this.updateInput = this.updateInput.bind(this);
     this.onSuccess = this.onSuccess.bind(this);
@@ -73,10 +73,12 @@ export default class Signup extends React.Component {
               {data && <div><p>Signup success, confirmation has been sent to <i>{this.state.emailSentTo}</i></p>Go <Link to="/login">here</Link> to login</div>}
               {error && <p>{error.toString()}</p>}
             </FormBox>
-            <LineAfter>Already a user? <LoginLink to="/login">Log In</LoginLink></LineAfter>
+            <FormLineAfter>Already a user? <LoginLink to="/login">Log In</LoginLink></FormLineAfter>
           </FormPage>
         )}
       </Mutation>
     );
   }
 }
+
+export default Signup;

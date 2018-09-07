@@ -13,24 +13,25 @@ export default class Auth {
     } else {
       this.setSession(token);
     }
-    window.location.pathname = this.getRole() === 'customer' ? '/scheduler' : '/dashboard';
+    window.location.pathname = this.getRole() === 'CUSTOMER' ? '/scheduler' : '/dashboard';
   }
 
   getRole() {
     const token = window.localStorage.getItem('token');
-    return jwtDecode(token).role;
+    return jwtDecode(token).userRole;
   }
 
   getUser() {
     const token = window.localStorage.getItem('token');
-    return jwtDecode(token).email;
+    return jwtDecode(token).userEmail;
   }
 
   // checks if user role matches/is above requiredRole
   isAuthorized(requiredRole) {
     const userRole = this.getRole();
+    console.log(userRole);
 
-    if (userRole === 'admin') return true;
+    if (userRole === 'ADMIN') return true;
 
     return userRole === requiredRole;
   }

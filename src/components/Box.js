@@ -1,22 +1,33 @@
 import styled from 'styled-components';
 
-const Box = styled.div`
+export default styled.div`
   width: ${props => props.width};
   height: ${props => props.height};
 
-  padding-top: ${props => props.p || props.py || props.pt};
-  padding-right: ${props => props.p || props.px || props.pr};
-  padding-bottom: ${props => props.p || props.py || props.pb};
-  padding-left: ${props => props.p || props.px || props.pl};
+  padding-top: ${props => props.pt || props.py || props.p};
+  padding-right: ${props => props.pr || props.px || props.p};
+  padding-bottom: ${props => props.pb || props.py || props.p};
+  padding-left: ${props => props.pl || props.px || props.p};
 
-  margin-top: ${props => props.m || props.my || props.mt};
-  margin-right: ${props => props.m || props.mx || props.mr};
-  margin-bottom: ${props => props.m || props.my || props.mb};
-  margin-left: ${props => props.m || props.mx || props.ml};
+  margin-top: ${props => props.mt || props.my || props.m};
+  margin-right: ${props => props.mr || props.mx || props.m};
+  margin-bottom: ${props => props.mb || props.my || props.m};
+  margin-left: ${props => props.ml || props.mx || props.m};
 
-  background-color: ${props => props.bgColor};
+  background-color: ${(props) => {
+    if (props.bgColor) {
+      const theme = props.bgColor.split('.');
+      if (theme[0] === 'theme') {
+        return props.theme[theme[1]];
+      }
+
+      return props.bgColor;
+    }
+  }};
+
+  background: ${props => props.bg};
 
   text-align: ${props => props.textAlign};
-`;
 
-export default Box;
+  border-radius: ${props => props.radius};
+`;

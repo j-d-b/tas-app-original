@@ -4,8 +4,7 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import Box from '../components/Box';
-import { FormPage, FormBox, FormTitle, FormInput, FormSubmit, LineAfter } from '../components/Form';
+import { FormPage, FormBox, FormTitle, FormInput, FormSubmit, FormLineAfter } from '../components/Form';
 import Logo from '../components/Logo';
 
 const ForgotPassLink = styled(Link)`
@@ -29,23 +28,23 @@ const SignupLink = styled(Link)`
 `;
 
 const loginMutation = gql`
-  mutation login($email: ID!, $password: String!) {
+  mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password)
   }
 `;
 
-export default class Login extends React.Component {
-  constructor(props) {
-    super(props);
+class Login extends React.Component {
+  constructor() {
+    super();
     this.state = { email: '', password: '' };
-    this.updateInput = this.updateInput.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  updateInput(event) {
+  handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleSubmit(login, event) {
+  handleSubmit(event, login) {
     event.preventDefault();
     login({ variables: { email: this.state.email, password: this.state.password }});
   }
@@ -59,9 +58,9 @@ export default class Login extends React.Component {
             <FormBox>
               <FormTitle>Log In</FormTitle>
 
-              <form onSubmit={e => this.handleSubmit(login, e)}>
-                <FormInput name="email" type="email" value={this.state.email} placeholder="Email Address" onChange={this.updateInput} required/>
-                <FormInput name="password" type="password" value={this.state.password} placeholder="Password" onChange={this.updateInput} required />
+              <form onSubmit={e => this.handleSubmit(e, login)}>
+                <FormInput name="email" type="email" value={this.state.email} placeholder="Email Address" onChange={this.handleInputChange} required />
+                <FormInput name="password" type="password" value={this.state.password} placeholder="Password" onChange={this.handleInputChange} required />
                 <FormSubmit type="submit" value="Log In" />
                 <ForgotPassLink to="/reset-password">Forgot password?</ForgotPassLink>
               </form>
@@ -69,10 +68,12 @@ export default class Login extends React.Component {
               {error && <p>{error.toString()}</p>}
               {data && <p>Log in successful, redirecting...</p>}
             </FormBox>
-            <LineAfter>Don't have an account? <SignupLink to="/signup">Sign Up</SignupLink></LineAfter>
+            <FormLineAfter>Don't have an account? <SignupLink to="/signup">Sign Up</SignupLink></FormLineAfter>
           </FormPage>
         )}
       </Mutation>
     );
   }
 }
+
+export default Login;

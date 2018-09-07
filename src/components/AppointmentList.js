@@ -8,7 +8,9 @@ const getAppts = gql`
   query appts($user: String, $time: String, $block: String, $type: String) {
     appts(user: $user, time: $time, block: $block, type: $type) {
       id
-      user
+      user {
+        name
+      }
       time
       block
       type
@@ -44,7 +46,7 @@ export default function AppointmentList({ where }) {
         if (singleAppt && data.appt) return <Appointment apptInfo={data.appt} />;
 
         if (data.appts.length) return data.appts.map(appt => <Appointment key={appt.id} apptInfo={appt} />);
-        
+
         return <p>No appointments</p>;
       }}
     </Query>

@@ -12,7 +12,8 @@ import Auth from './Auth';
 
 const theme = {
   main: 'limegreen',
-  light: '#52A4E6',
+  light: '#36bfc1',
+  dark: '#18ab18',
   accent: 'tomato',
   navBreakpoint: '620px'
 };
@@ -20,9 +21,18 @@ const theme = {
 const setGlobalStyles = () => injectGlobal`
   ${styledNormalize};
 
+  html {
+    height: 100%;
+  }
+
   body {
+    height: 100%;
     padding: 0;
     font-family: helvetica, sans-serif;
+  }
+
+  #root {
+    height: 100%;
   }
 `;
 
