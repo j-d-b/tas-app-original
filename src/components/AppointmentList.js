@@ -4,48 +4,51 @@ import gql from 'graphql-tag';
 
 import Appointment from './Appointment.js';
 
-const getAppts = gql`
-  query appts($user: String, $time: String, $block: String, $type: String) {
-    appts(user: $user, time: $time, block: $block, type: $type) {
+const getApptsQuery = gql`
+  query appts($where: ApptsWhere) {
+    appts(where: $where) {
       id
       user {
         name
       }
-      time
-      block
+      timeSlot {
+        hour
+        date
+      }
       type
     }
   }
 `;
 
-const getApptById = gql`
-  query appt($id: ID!) {
-    appt(id: $id) {
+const myApptsQuery = gql`
+  {
+    myAppts {
       id
-      user
-      time
-      block
+      user {
+        name
+      }
+      timeSlot {
+        hour
+        date
+      }
       type
     }
   }
 `;
 
-export default function AppointmentList({ where }) {
-  const singleAppt = where.id && true;
-  const query = singleAppt ? getApptById : getAppts;
-
+export default function AppointmentList(props) {
+  const query = props.my ? myApptsQuery : getApptsQuery;
+  const variables = props.where || {};
   return (
-    <Query query={query} variables={where}>
+    <Query query={query} variables={props.where}>
       {({ loading, error, data }) => {
         if (loading) return <p>Loading...</p>;
         if (error) {
           console.log(error);
           return <p>{error.toString()}</p>;
         }
-
-        if (singleAppt && data.appt) return <Appointment apptInfo={data.appt} />;
-
-        if (data.appts.length) return data.appts.map(appt => <Appointment key={appt.id} apptInfo={appt} />);
+        if (data.myAppts && data.myAppts.length) return data.myAppts.map(appt => <Appointment key={appt.id} apptInfo={appt} />);
+        if (data.appts && data.appts.length) return data.appts.map(appt => <Appointment key={appt.id} apptInfo={appt} />);
 
         return <p>No appointments</p>;
       }}

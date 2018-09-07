@@ -2,21 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ApptBox = styled.div`
-  border-radius: 5px;
-  margin: 10px;
+  border-radius: 8px;
+  margin: 10px 0;
   padding: 10px;
-  background-color: thistle;
+  border: 4px solid #ccc;
 `;
 
-const ApptField = styled.span`
-  padding: 10px;
+const ApptField = styled.div`
+  padding: 0.4rem;
 `;
 
 export default ({ apptInfo }) => (
   <ApptBox>
-    <ApptField><strong>Name:</strong> {apptInfo.user.name}</ApptField>
-    <ApptField><strong>Time:</strong> {apptInfo.time}</ApptField>
-    <ApptField><strong>Block:</strong> {apptInfo.block}</ApptField>
-    <ApptField><strong>Type:</strong> {apptInfo.type}</ApptField>
+    <ApptField><strong>Name: </strong> {apptInfo.user.name}</ApptField>
+    <ApptField><strong>Type: </strong> {apptInfo.type}</ApptField>
+    <ApptField><strong>Time Slot: </strong>{apptInfo.timeSlot.date} - <i>{apptInfo.timeSlot.hour}:00</i></ApptField>
   </ApptBox>
 );

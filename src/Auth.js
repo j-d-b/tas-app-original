@@ -29,7 +29,6 @@ export default class Auth {
   // checks if user role matches/is above requiredRole
   isAuthorized(requiredRole) {
     const userRole = this.getRole();
-    console.log(userRole);
 
     if (userRole === 'ADMIN') return true;
 

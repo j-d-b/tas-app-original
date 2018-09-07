@@ -17,7 +17,7 @@ const StartButton = styled.input`
   border-radius: 3px;
   border: none;
   padding: 0;
-  margin: 1rem 1rem;
+  margin: 3rem 1rem;
   height: 45px;
   cursor: pointer;
   color: #fff;
@@ -29,24 +29,32 @@ const StartButton = styled.input`
 `;
 
 class SchedulerRegion extends React.Component {
+  constructor() {
+    super();
+  }
+
+  handleStart() {
+
+  }
+
   render() {
     return (
-      <Box height="100%">
-        <Box textAlign="center" bg="linear-gradient(limegreen 40%, #39d683, #36bfc1);" radius="8px" height="100%">
-          <FlexBox height="100%" direction="column" justify="center" alignItems="center">
-            <ScheduleTitle>Schedule an Appointment</ScheduleTitle>
-            <StartButton type="submit" value="Start" />
-          </FlexBox>
-        </Box>
+      <Box height="calc(100% - 4rem)" m="2rem" textAlign="center" bg="linear-gradient(limegreen 40%, #39d683, #36bfc1);" radius="8px">
+        <FlexBox height="100%" direction="column" alignItems="center" justify="center">
+          <ScheduleTitle>Schedule an Appointment</ScheduleTitle>
+          <StartButton type="submit" value="Start" />
+        </FlexBox>
       </Box>
     );
   }
 }
 
-const ScheduledApptsRegion = ({ user }) => (
-  <Box m="2rem" ml="1rem" mb="0" p="1rem">
+const ScheduledApptsRegion = () => (
+  <Box mr="2rem" my="2rem" height="calc(100% - 4rem)">
     <h2>My Appointments</h2>
-    <AppointmentList where={{ user }} />
+    <Box maxHeight="calc(100% - 3rem)" overflow="scroll">
+      <AppointmentList my />
+    </Box>
   </Box>
 );
 
@@ -56,7 +64,7 @@ const Scheduler = (props) => (
       <SchedulerRegion />
     </FlexItem>
     <FlexItem basis="40%">
-      <ScheduledApptsRegion user={props.auth.getUser()} />
+      <ScheduledApptsRegion />
     </FlexItem>
   </FlexBox>
 );

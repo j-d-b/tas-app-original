@@ -39,10 +39,10 @@ function getHomeRoute(auth) {
 
 // for the page body below the fixed width navbar
 const BelowNav = styled.div`
-  height: calc(100% - 50px);
+  height: calc(100% - 50px); /* TODO this shouldn't be hardcoded here */
 `;
 
-export default ({ auth }) => (
+const Router = ({ auth }) => (
   <BrowserRouter>
     <Box height="100%">
       <Route path="/(dashboard|scheduler|config|admin|settings)/" render={() => <Navbar auth={auth} />} />
@@ -62,3 +62,5 @@ export default ({ auth }) => (
     </Box>
   </BrowserRouter>
 );
+
+export default Router;

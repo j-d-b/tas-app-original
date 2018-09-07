@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export default styled.div`
+  max-height: ${props => props.maxHeight};
+  max-width: ${props => props.maxWidth};
   width: ${props => props.width};
   height: ${props => props.height};
 
@@ -30,4 +32,6 @@ export default styled.div`
   text-align: ${props => props.textAlign};
 
   border-radius: ${props => props.radius};
+
+  overflow: ${props => props.overflow};
 `;
