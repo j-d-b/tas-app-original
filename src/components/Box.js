@@ -16,6 +16,7 @@ export default styled.div`
   margin-bottom: ${props => props.mb || props.my || props.m};
   margin-left: ${props => props.ml || props.mx || props.m};
 
+  background: ${props => props.bg};
   background-color: ${(props) => {
     if (props.bgColor) {
       const theme = props.bgColor.split('.');
@@ -27,7 +28,6 @@ export default styled.div`
     }
   }};
 
-  background: ${props => props.bg};
 
   text-align: ${props => props.textAlign};
 
