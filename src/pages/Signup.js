@@ -17,8 +17,10 @@ const LoginLink = styled(Link)`
 `;
 
 const signupMutation = gql`
-  mutation addUser($email: ID!, $password: String!, $userDetails: UserDetails!) {
-    addUser(email: $email, password: $password, userDetails: $userDetails)
+  mutation addUser($password: String!, $details: AddUserInput!) {
+    addUser(password: $password, details: $details) {
+      name
+    }
   }
 `;
 
@@ -26,11 +28,11 @@ class Signup extends React.Component {
   constructor() {
     super();
     this.state = { email: '', password: '', name: '', company: '', emailSentTo: '' };
-    this.updateInput = this.updateInput.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.onSuccess = this.onSuccess.bind(this);
   }
 
-  updateInput(event) {
+  handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
 
@@ -38,9 +40,9 @@ class Signup extends React.Component {
     event.preventDefault();
     addUser({
       variables: {
-        email: this.state.email,
         password: this.state.password,
-        userDetails: {
+        details: {
+          email: this.state.email,
           name: this.state.name,
           company: this.state.company
         }
@@ -63,15 +65,15 @@ class Signup extends React.Component {
               <FormTitle>Sign Up</FormTitle>
 
               <form onSubmit={e => this.handleSubmit(addUser, e)}>
-                <FormInput name="name" type="text" value={this.state.name} placeholder="Full Name" onChange={this.updateInput} />
-                <FormInput name="email" type="email" value={this.state.email} placeholder="Email Address" onChange={this.updateInput} />
-                <FormInput name="password" type="password" value={this.state.password} placeholder="Password" onChange={this.updateInput} />
-                <FormInput name="company" type="text" value={this.state.company} placeholder="Company" onChange={this.updateInput} />
+                <FormInput name="name" type="text" value={this.state.name} placeholder="Full Name" onChange={this.handleInputChange} required />
+                <FormInput name="email" type="email" value={this.state.email} placeholder="Email Address" onChange={this.handleInputChange} required />
+                <FormInput name="password" type="password" value={this.state.password} placeholder="Password" onChange={this.handleInputChange} required />
+                <FormInput name="company" type="text" value={this.state.company} placeholder="Company" onChange={this.handleInputChange} required />
                 <FormSubmit type="submit" value="Sign Up" />
               </form>
 
               {data && <div><p>Signup success, confirmation has been sent to <i>{this.state.emailSentTo}</i></p>Go <Link to="/login">here</Link> to login</div>}
-              {error && <p>{error.toString()}</p>}
+              {error && <p>{error.message}</p>}
             </FormBox>
             <FormLineAfter>Already a user? <LoginLink to="/login">Log In</LoginLink></FormLineAfter>
           </FormPage>
