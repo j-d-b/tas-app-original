@@ -9,7 +9,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import ResetPassword from './pages/ResetPassword';
 import NewPassword from './pages/NewPassword';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/dashboard/Dashboard';
 import Scheduler from './pages/Scheduler';
 import Config from './pages/Config';
 import Admin from './pages/Admin';
