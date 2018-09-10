@@ -8,8 +8,8 @@ import { FormPage, FormBox, FormTitle, FormInput, FormSubmit } from '../componen
 import Logo from '../components/Logo';
 
 const newPassMutation = gql`
-  mutation resetPassword($newPassword: String!, $token: String!) {
-    resetPassword(newPassword: $newPassword, token: $token)
+  mutation resetPass($newPassword: String!, $token: String!) {
+    resetPass(newPassword: $newPassword, resetToken: $token)
   }
 `;
 
@@ -43,8 +43,8 @@ export default class NewPassword extends React.Component {
                 <FormSubmit type="submit" value="Change Password" />
               </form>
 
-              {error && <p>{error.toString()}</p>}
-              {data && <div><p>Password for <i>{jwtDecode(this.props.match.params.token).email}</i> has been changed.</p>Go <Link to="/login">here</Link> to login</div>}
+              {error && <p>{error.message}</p>}
+              {data && <div><p>Password for <i>{jwtDecode(this.props.match.params.token).userEmail}</i> has been changed.</p>Go <Link to="/login">here</Link> to login</div>}
             </FormBox>
           </FormPage>
         )}
