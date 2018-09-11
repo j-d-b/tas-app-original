@@ -12,7 +12,7 @@ import NewPassword from './pages/NewPassword';
 import Dashboard from './pages/dashboard/Dashboard';
 import Scheduler from './pages/Scheduler';
 import Config from './pages/Config';
-import Admin from './pages/Admin';
+import Admin from './pages/admin/Admin';
 import Settings from './pages/Settings';
 import NotFound from './pages/NotFound';
 import NoAccess from './pages/NoAccess';

@@ -28,10 +28,11 @@ export default styled.div`
     }
   }};
 
-
   text-align: ${props => props.textAlign};
 
   border-radius: ${props => props.radius};
 
   overflow: ${props => props.overflow};
+
+  border: ${props => props.border};
 `;
