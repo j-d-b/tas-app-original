@@ -5,13 +5,8 @@ import { darken } from 'polished';
 import { FlexBox, FlexItem } from '../../components/Flex';
 import Box from '../../components/Box';
 import AppointmentList from '../../components/AppointmentList';
+import Grid from '../../components/Grid';
 import OrganizeBox from './OrganizeBox';
-
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(${props => props.cols}, 1fr);
-  grid-column-gap: 20px;
-`;
 
 class Dashboard extends React.Component {
   render() {
@@ -24,7 +19,7 @@ class Dashboard extends React.Component {
         </FlexItem>
         <FlexItem basis="70%">
           <Box m="2rem">
-            <Grid cols="3">
+            <Grid cols="3" colGap="20px">
               <AppointmentList />
             </Grid>
           </Box>
