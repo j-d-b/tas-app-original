@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Navbar from './components/Navbar';
+import Navbar from './common/Navbar';
 import Box from './components/Box';
 
 import Signup from './pages/Signup';
@@ -14,7 +14,7 @@ import Dashboard from './pages/dashboard/Dashboard';
 import Scheduler from './pages/Scheduler';
 import Config from './pages/Config';
 import Admin from './pages/admin/Admin';
-import Settings from './pages/Settings';
+import Settings from './pages/settings/Settings';
 import NotFound from './pages/NotFound';
 import NoAccess from './pages/NoAccess';
 
