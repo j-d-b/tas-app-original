@@ -51,32 +51,45 @@ const RESEND_VERIFICATION = gql`
 `;
 
 
-const UserItem = ({ user }) => (
-  <div>
-    <UserLine>
-      <div>{user.name}</div>
-      <div>{user.email}</div>
-      <div>{user.role}</div>
-      <div>{user.company}</div>
-      <div>{user.companyType}</div>
-      <div>{user.companyRegNum}</div>
-      <div>{user.confirmed ? '✔️' : (
-        <Mutation mutation={CONFIRM_USER} onCompleted={() => console.log('sent')}>
-          {(confirmUser, { error, data }) => (
-            data ? '✔️' : <ConfirmButton onClick={() => confirmUser({ variables: { email: user.email }})}>Confirm</ConfirmButton>
-          )}
-        </Mutation>)}
+class UserItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { confirmed: this.props.user.confirmed };
+  }
+
+  render() {
+    return (
+      <div>
+        <UserLine>
+          <div>{this.props.user.name}</div>
+          <div>{this.props.user.email}</div>
+          <div>{this.props.user.role}</div>
+          <div>{this.props.user.company}</div>
+          <div>{this.props.user.companyType}</div>
+          <div>{this.props.user.companyRegNum}</div>
+          <div>{this.props.user.confirmed ? '✔️' : (
+            <Mutation mutation={CONFIRM_USER} onCompleted={() => console.log('sent')}>
+              {(confirmUser, { error, data }) => {
+                if (data) {
+                  if (!this.state.confirmed) this.setState({ confirmed: true });
+                  return '✔️';
+                }
+                return <ConfirmButton onClick={() => confirmUser({ variables: { email: this.props.user.email }})}>Confirm</ConfirmButton>;
+              }}
+            </Mutation>)}
+          </div>
+          <div>{this.props.user.emailVerified ? '✔️' : (
+            <Mutation mutation={RESEND_VERIFICATION} onCompleted={() => console.log('sent')}>
+              {(sendVerifyEmailLink, { error, data }) => (
+                this.state.confirmed ? <ConfirmButton onClick={() => sendVerifyEmailLink({ variables: { email: this.props.user.email }})}>Resend</ConfirmButton> : '❌'
+              )}
+            </Mutation>)}
+          </div>
+        </UserLine>
       </div>
-      <div>{user.emailVerified ?'✔️' : (
-        <Mutation mutation={RESEND_VERIFICATION} onCompleted={() => console.log('sent')}>
-          {(sendVerifyEmailLink, { error, data }) => (
-            <ConfirmButton onClick={() => sendVerifyEmailLink({ variables: { email: user.email }})}>Resend</ConfirmButton>
-          )}
-        </Mutation>)}
-      </div>
-    </UserLine>
-  </div>
-);
+    );
+  }
+};
 
 const Users = () => (
   <Query query={getUsers}>

@@ -7,6 +7,7 @@ import Box from './components/Box';
 
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import VerifyEmail from './pages/VerifyEmail';
 import ResetPassword from './pages/ResetPassword';
 import NewPassword from './pages/NewPassword';
 import Dashboard from './pages/dashboard/Dashboard';
@@ -52,6 +53,7 @@ const Router = ({ auth }) => (
         <Route path="/signup" component={Signup} />
         <Route path="/reset-password" component={ResetPassword} />
         <Route path="/new-password/:token" component={NewPassword} />
+        <Route path="/verify-email/:token" component={VerifyEmail} />
         <PrivateRoute path="/dashboard" component={Dashboard} auth={auth} requiredRole="OPERATOR" wrapper={BelowNav} />
         <PrivateRoute path="/scheduler" component={Scheduler} auth={auth} wrapper={BelowNav} />
         <PrivateRoute path="/config" component={Config} auth={auth} requiredRole="OPERATOR" wrapper={BelowNav} />

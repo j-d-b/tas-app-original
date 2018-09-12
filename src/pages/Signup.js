@@ -72,7 +72,7 @@ class Signup extends React.Component {
                 <FormSubmit type="submit" value="Sign Up" />
               </form>
 
-              {data && <div><p>Signup success, confirmation has been sent to <i>{this.state.emailSentTo}</i></p>Go <Link to="/login">here</Link> to login</div>}
+              {data && <div><p>Signup success, confirmation and next steps have been sent to <i>{this.state.emailSentTo}</i></p></div>}
               {error && <p>{error.message}</p>}
             </FormBox>
             <FormLineAfter>Already a user? <LoginLink to="/login">Log In</LoginLink></FormLineAfter>
