@@ -47,12 +47,12 @@ const NavButton = styled.button`
   cursor: pointer;
   border-radius: 4px;
   color: #efefef;
-  border: 1px solid ${props => props.theme.dark};
+  border: 1px solid ${props => props.theme.main};
   background-color: ${props => props.theme.dark};
 
   &:hover {
     color: #fff;
-    border-color: #ddd;
+    border-color: #fff;
   }
 `;
 
