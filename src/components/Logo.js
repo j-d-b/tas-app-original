@@ -1,7 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-// import Logo from './logo.png'; TODO
+import logo from '../images/bctc-tas-simple-logo.svg';
+
+const LogoImg = styled.img`
+  padding: 6vh 10px 10px 10px;
+  height: 2rem;
+`;
 
 const LogoText = styled.div`
   padding-top: 6vh;
@@ -10,4 +15,4 @@ const LogoText = styled.div`
   color: #eee;
 `;
 
-export default () => <LogoText>BCTC TAS</LogoText>;
+export default () => <LogoImg src={logo} />;
