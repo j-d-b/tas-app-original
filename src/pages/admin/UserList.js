@@ -69,10 +69,12 @@ class UserItem extends React.Component {
           <div>{this.props.user.companyRegNum}</div>
           <div>{this.props.user.confirmed ? '✔️' : (
             <Mutation mutation={CONFIRM_USER} onCompleted={() => console.log('sent')}>
-              {(confirmUser, { error, data }) => {
+              {(confirmUser, { loading, error, data }) => {
                 if (data) {
                   if (!this.state.confirmed) this.setState({ confirmed: true });
                   return '✔️';
+                } else if (loading) {
+                  return 'Confirming...';
                 }
                 return <ConfirmButton onClick={() => confirmUser({ variables: { email: this.props.user.email }})}>Confirm</ConfirmButton>;
               }}
@@ -80,9 +82,16 @@ class UserItem extends React.Component {
           </div>
           <div>{this.props.user.emailVerified ? '✔️' : (
             <Mutation mutation={RESEND_VERIFICATION} onCompleted={() => console.log('sent')}>
-              {(sendVerifyEmailLink, { error, data }) => (
-                this.state.confirmed ? <ConfirmButton onClick={() => sendVerifyEmailLink({ variables: { email: this.props.user.email }})}>Resend</ConfirmButton> : '❌'
-              )}
+              {(sendVerifyEmailLink, { loading, error, data }) => {
+                if (!this.state.confirmed) {
+                  return '❌';
+                } else if (loading) {
+                  return 'Sending...';
+                } else if (data) {
+                  return 'Sent';
+                }
+                return <ConfirmButton onClick={() => sendVerifyEmailLink({ variables: { email: this.props.user.email }})}>Resend</ConfirmButton>;
+              }}
             </Mutation>)}
           </div>
         </UserLine>
