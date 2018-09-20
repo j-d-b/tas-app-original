@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Link } from 'react-router-dom';
 import jwtDecode from 'jwt-decode';
 
-import { FormPage, FormBox, FormTitle, FormInput, FormSubmit } from '../components/Form';
+import { FormPage, FormBox } from '../components/Form';
 import Logo from '../components/Logo';
 
 const VERIFY_EMAIL = gql`

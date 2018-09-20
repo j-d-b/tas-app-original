@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { darken } from 'polished';
 
 import logo from '../images/bctc-tas-simple-logo.svg';
 

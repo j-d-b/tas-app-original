@@ -8,11 +8,11 @@ const LogoImg = styled.img`
   height: 2rem;
 `;
 
-const LogoText = styled.div`
-  padding-top: 6vh;
-  font-size: 2rem;
-  font-weight: bold;
-  color: #eee;
-`;
+// const LogoText = styled.div`
+//   padding-top: 6vh;
+//   font-size: 2rem;
+//   font-weight: bold;
+//   color: #eee;
+// `;
 
 export default () => <LogoImg src={logo} />;

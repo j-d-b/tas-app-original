@@ -4,7 +4,6 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 
 import Box from '../../components/Box';
-import { FlexBox } from '../../components/Flex';
 import Grid from '../../components/Grid';
 
 const UserLine = styled.div`

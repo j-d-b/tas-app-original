@@ -29,10 +29,6 @@ const StartButton = styled.input`
 `;
 
 class SchedulerRegion extends React.Component {
-  constructor() {
-    super();
-  }
-
   handleStart() {
 
   }

@@ -4,8 +4,7 @@ import { darken } from 'polished';
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 
-import { FlexBox, FlexItem } from '../../components/Flex';
-import Box from '../../components/Box';
+import SelectRow from './SelectRow';
 
 const Container = styled.div`
   margin: 2rem;
@@ -32,22 +31,6 @@ const Divider = styled.div`
   margin: 0.5rem 0;
   height: 1px;
   background-color: #000;
-`;
-
-const Select = styled.select`
-  border-radius: 3px;
-  border: 1px solid #ddd;
-  width: 100%;
-  padding: 0.2rem 1rem;
-  height: 30px;
-  font-size: 15px;
-  margin: 0.4rem 0;
-  box-sizing: border-box;
-
-  &:focus {
-    outline: none;
-    border-color: #aaa;
-  }
 `;
 
 const SearchInput = styled.input`
@@ -90,25 +73,6 @@ const SubmitInput = styled.input`
   }
 `;
 
-const SelectRow = ({ title, options }) => (
-  <FlexBox justify="flex-end" alignItems="center">
-    <FlexItem>
-      <Box mr="1rem">{title}</Box>
-    </FlexItem>
-    <FlexItem basis="67%">
-      <Select>
-        {options.map((opt) => <option key={opt.title} value={opt.value}>{opt.title}</option>)}
-      </Select>
-    </FlexItem>
-  </FlexBox>
-);
-
-const SelectSection = ({ selects }) => (
-  <div>
-    {selects.map((select) => <SelectRow key={select.title} title={select.title} options={select.options} />)}
-  </div>
-);
-
 const ALL_BLOCKS = gql`
   {
     allBlocks {
@@ -117,14 +81,14 @@ const ALL_BLOCKS = gql`
   }
 `;
 
-const BlockSelect = () => (
+const BlockSelect = ({ value, action}) => (
   <Query query={ALL_BLOCKS}>
     {({ loading, error, data }) => {
       if (error) return `Error! ${error.message}`;
 
-      const options = loading ? [{ value: 'Loading...' }] : data.allBlocks.map(block => ({ value: block.id, title: block.id }));
+      const options = loading ? [{ value: 'Loading...' }] : [{ value: 'ALL', title: 'All' }].concat(data.allBlocks.map(block => ({ value: block.id, title: block.id })));
 
-      return <SelectRow title="Block" options={options} />;
+      return <SelectRow title="Block" value={value} action={action} options={options} />
     }}
   </Query>
 );
@@ -136,78 +100,83 @@ const Search = () => (
   </div>
 );
 
-function Filter() {
-  const filterSelects = [
-    {
-      title: 'Time Slots',
-      options: [
-        { value: 'current', title: 'Current' },
-        { value: 'next', title: 'Next ' },
-        { value: 'upcoming', title: 'Upcoming' },
-        { value: 'past', title: 'Past' },
-        { value: 'all', title: 'All' }
-      ]
-    },
-    {
-      title: 'Type',
-      options: [
-        { value: 'all', title: 'All' },
-        { value: 'import-full', title: 'Import Full' },
-        { value: 'export-full', title: 'Export Full' },
-        { value: 'import-empty', title: 'Import Empty' },
-        { values: 'export-empty', title: 'Export Empty' }
-      ]
-    }
-  ];
-
-  return (
-    <div>
-      <Header>Filter</Header>
-      <SelectSection title="Filter" selects={filterSelects} />
-      <BlockSelect />
-    </div>
-  );
-};
-
-function Sort() {
-  const sortSelects = [
-    {
-      title: 'By',
-      options: [
-        { value: 'time-slot', title: 'Time Slot' },
-        { value: 'block', title: 'Block' },
-        { value: 'type', title: 'Type' },
-        { value: 'customer', title: 'Customer' },
-        { value: 'company', title: 'Company' }
-      ]
-    },
-    {
-      title: 'Direction',
-      options: [
-        { value: 'descending', title: 'Descending' },
-        { value: 'ascending', title: 'Ascending' }
-      ]
-    }
-  ];
-
-  return (
-    <div>
-      <Header>Sort</Header>
-      <SelectSection title="Sort" selects={sortSelects} />
-    </div>
-  );
-}
-
-const OrganizeBox = () => (
+const OrganizeBox = (props) => (
   <Container>
     <Content>
       <Title>Organize</Title>
       <Search />
       <Divider />
-      <Filter />
+
+      <Header>Filter</Header>
+      <SelectRow
+        title="Time Slots"
+        options={[
+          { value: 'CURRENT', title: 'Current' },
+          { value: 'NEXT', title: 'Next ' },
+          { value: 'UPCOMING', title: 'Upcoming' },
+          { value: 'PAST', title: 'Past' },
+          { value: 'ALL', title: 'All' }
+        ]}
+        value={props.timeSlotsFilter}
+        action={props.onTimeSlotsChange}
+      />
+      <SelectRow
+        title="Type"
+        options={[
+          { value: 'ALL', title: 'All' },
+          { value: 'IMPORTFULL', title: 'Import Full' },
+          { value: 'IMPORTEMPTY', title: 'Import Empty' },
+          { value: 'EXPORTFULL', title: 'Export Full' },
+          { value: 'EXPORTEMPTY', title: 'Export Empty' }
+        ]}
+        value={props.apptTypeFilter}
+        action={props.onApptTypeChange}
+      />
+      <BlockSelect
+        title="Block"
+        value={props.blockFilter}
+        action={props.onBlockChange}
+      />
       <Divider />
-      <Sort />
-      <SubmitInput type="submit" value="Reset" />
+
+      <Header>Sort</Header>
+      <SelectRow
+        title="By"
+        options={[
+          { value: 'TIME_SLOT', title: 'Time Slot' },
+          { value: 'BLOCK', title: 'Block' },
+          { value: 'TYPE', title: 'Type' },
+          { value: 'CUSTOMER', title: 'Customer' },
+          { value: 'COMPANY', title: 'Company' }
+        ]}
+        value={props.sortField}
+        action={props.onSortFieldChange}
+      />
+      <SelectRow
+        title="Direction"
+        options={[
+          { value: 'DESCENDING', title: 'Descending' },
+          { value: 'ASCENDING', title: 'Ascending' }
+        ]}
+        value={props.sortDirection}
+        action={props.onSortDirChange}
+      />
+      {/* <FlexBox justify="flex-end" alignItems="center">
+        <FlexItem>
+          <Box mr="1rem">By</Box>
+        </FlexItem>
+        <FlexItem basis="67%">
+          <Select value={this.props.sortField} onChange={(e) => ={this.props.onSortFieldChange}(e.target.value) }>
+            <option value="TIME_SLOT">Time Slot</option>
+            <option value="BLOCK">Block</option>
+            <option value="TYPE">Type</option>
+            <option value="CUSTOMER">Customer</option>
+            <option value="COMPANY">Company</option>
+          </Select>
+        </FlexItem>
+      </FlexBox> */}
+
+      <SubmitInput type="submit" value="Reset" onClick={props.onResetClick}/>
     </Content>
   </Container>
 );

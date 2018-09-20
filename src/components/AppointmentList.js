@@ -36,9 +36,24 @@ const myApptsQuery = gql`
   }
 `;
 
+const compareBy = (sortField) => {
+  const field = sortField || 'timeSlot';
+  console.log(field);
+  return (a, b) => {
+    console.log(a[field]);
+    console.log(b[field]);
+
+    const nameA = a[field].toUpperCase();
+    const nameB = b[field].toUpperCase();
+
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
+    return 0;
+  };
+};
+
 export default function AppointmentList(props) {
   const query = props.my ? myApptsQuery : getApptsQuery;
-  const variables = props.where || {};
   return (
     <Query query={query} variables={props.where}>
       {({ loading, error, data }) => {
@@ -47,8 +62,14 @@ export default function AppointmentList(props) {
           console.log(error);
           return <p>{error.toString()}</p>;
         }
-        if (data.myAppts && data.myAppts.length) return data.myAppts.map(appt => <Appointment key={appt.id} apptInfo={appt} />);
-        if (data.appts && data.appts.length) return data.appts.map(appt => <Appointment key={appt.id} apptInfo={appt} />);
+        if (data.myAppts && data.myAppts.length) {
+          const sorted = data.myAppts.sort(compareBy(props.sortField));
+          return sorted.map(appt => <Appointment key={appt.id} apptInfo={appt} />);
+        }
+        if (data.appts && data.appts.length) {
+          const sorted = data.appts.slice().sort(compareBy(props.sortField));
+          return sorted.map(appt => <Appointment key={appt.id} apptInfo={appt} />);
+        }
 
         return <p>No appointments</p>;
       }}
