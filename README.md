@@ -1,3 +1,4 @@
-Using CRA for now, but will setup manually shortly.
+# TAS SPA
+The React web app interface for the [BCTC](http://www.bctc-lb.com/) Truck Appointment System (TAS) 🚚.
 
-Project due Nov 2018, concurrently working on backend, which is on a private repo.
+The full projet is due February 2019; I'm concurrently working on the backend, available [here](TODO)**TODO** move backend to GitHub.
