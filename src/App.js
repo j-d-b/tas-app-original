@@ -39,7 +39,7 @@ const setGlobalStyles = () => injectGlobal`
 const auth = new Auth();
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'https://tas-server-zgrwsbgtri.now.sh/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {

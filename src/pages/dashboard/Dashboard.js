@@ -4,7 +4,7 @@ import { darken } from 'polished';
 
 import { FlexBox, FlexItem } from '../../components/Flex';
 import Box from '../../components/Box';
-import AppointmentList from '../../components/AppointmentList';
+import Appointments from './Appointments';
 import Grid from '../../components/Grid';
 import OrganizeBox from './OrganizeBox';
 
@@ -20,7 +20,7 @@ class Dashboard extends React.Component {
         <FlexItem basis="70%">
           <Box m="2rem">
             <Grid cols="3" colGap="20px">
-              <AppointmentList />
+              <Appointments />
             </Grid>
           </Box>
         </FlexItem>
