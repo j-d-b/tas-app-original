@@ -39,7 +39,7 @@ const setGlobalStyles = () => injectGlobal`
 const auth = new Auth();
 
 const httpLink = createHttpLink({
-  uri: 'https://tas-server-hvmfpmntob.now.sh/graphql/',
+  uri: 'https://tas-api.now.sh/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
