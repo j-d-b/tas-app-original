@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 import { FormPage, FormBox, FormTitle, FormInput, FormSubmit } from '../components/Form';
 import Logo from '../components/Logo';
 
-const sendResetLinkMutation = gql`
-  mutation sendResetPassLink($email: String!) {
-    sendResetPassLink(email: $email)
+const SEND_RESET_LINK = gql`
+  mutation sendResetPasswordLink($input: SendResetPasswordLinkInput!) {
+    sendResetPasswordLink(input: $input)
   }
 `;
 
@@ -24,9 +24,9 @@ class ResetPassword extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  handleSubmit(sendResetPassLink, event) {
+  handleSubmit(sendResetPasswordLink, event) {
     event.preventDefault();
-    sendResetPassLink({ variables: { email: this.state.email }});
+    sendResetPasswordLink({ variables: { input: { email: this.state.email } } });
   }
 
   onSuccess() {
@@ -36,7 +36,7 @@ class ResetPassword extends React.Component {
 
   render() {
     return (
-      <Mutation mutation={sendResetLinkMutation} onCompleted={this.onSuccess}>
+      <Mutation mutation={SEND_RESET_LINK} onCompleted={this.onSuccess}>
         {(sendResetPassLink, { error, data }) => (
           <FormPage>
             <Logo />
@@ -44,7 +44,14 @@ class ResetPassword extends React.Component {
               <FormTitle>Reset Password</FormTitle>
 
               <form onSubmit={e => this.handleSubmit(sendResetPassLink, e)}>
-                <FormInput name="email" type="email" value={this.state.email} placeholder="Email Address" onChange={this.handleInputChange} required/>
+                <FormInput
+                  name="email"
+                  type="email"
+                  value={this.state.email}
+                  placeholder="Email Address"
+                  onChange={this.handleInputChange}
+                  required
+                />
                 <FormSubmit type="submit" value="Send Reset Link" />
               </form>
 

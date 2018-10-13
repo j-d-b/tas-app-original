@@ -59,7 +59,7 @@ const NavButton = styled.button`
 export default function Navbar({ auth }) {
   return (
     <NavContainer>
-      <NavLogo src={logo} />
+      <Link to="/"><NavLogo src={logo} /></Link>
       {auth.isAuthorized('OPERATOR') && <NavLink to="/dashboard">Dashboard</NavLink>}
       <NavLink to="/scheduler">Scheduler</NavLink>
       {auth.isAuthorized('OPERATOR') && <NavLink to="/config">Config</NavLink>}

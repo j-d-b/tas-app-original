@@ -27,9 +27,9 @@ const SignupLink = styled(Link)`
   }
 `;
 
-const loginMutation = gql`
-  mutation login($email: String!, $password: String!) {
-    login(email: $email, password: $password)
+const LOGIN = gql`
+  mutation login($input: LoginInput!) {
+    login(input: $input)
   }
 `;
 
@@ -46,12 +46,12 @@ class Login extends React.Component {
 
   handleSubmit(event, login) {
     event.preventDefault();
-    login({ variables: { email: this.state.email, password: this.state.password }});
+    login({ variables: { input: { email: this.state.email, password: this.state.password } } });
   }
 
   render() {
     return (
-      <Mutation mutation={loginMutation} onCompleted={({ login }) => this.props.auth.login(login)}>
+      <Mutation mutation={LOGIN} onCompleted={({ login }) => this.props.auth.login(login)}>
         {(login, { error, data }) => (
           <FormPage>
             <Logo />
@@ -59,8 +59,22 @@ class Login extends React.Component {
               <FormTitle>Log In</FormTitle>
 
               <form onSubmit={e => this.handleSubmit(e, login)}>
-                <FormInput name="email" type="email" value={this.state.email} placeholder="Email Address" onChange={this.handleInputChange} required />
-                <FormInput name="password" type="password" value={this.state.password} placeholder="Password" onChange={this.handleInputChange} required />
+                <FormInput
+                  name="email"
+                  type="email"
+                  value={this.state.email}
+                  placeholder="Email Address"
+                  onChange={this.handleInputChange}
+                  required
+                />
+                <FormInput
+                  name="password"
+                  type="password"
+                  value={this.state.password}
+                  placeholder="Password"
+                  onChange={this.handleInputChange}
+                  required
+                />
                 <FormSubmit type="submit" value="Log In" />
                 <ForgotPassLink to="/reset-password">Forgot password?</ForgotPassLink>
               </form>

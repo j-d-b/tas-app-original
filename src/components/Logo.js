@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import logo from '../images/bctc-tas-simple-logo.svg';
@@ -8,11 +9,4 @@ const LogoImg = styled.img`
   height: 2rem;
 `;
 
-const LogoText = styled.div`
-  padding-top: 6vh;
-  font-size: 2rem;
-  font-weight: bold;
-  color: #eee;
-`;
-
-export default () => <LogoImg src={logo} />;
+export default () => <Link to="/"><LogoImg src={logo} /></Link>;

@@ -38,7 +38,6 @@ const myApptsQuery = gql`
 
 export default function AppointmentList(props) {
   const query = props.my ? myApptsQuery : getApptsQuery;
-  const variables = props.where || {};
   return (
     <Query query={query} variables={props.where}>
       {({ loading, error, data }) => {

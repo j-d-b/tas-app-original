@@ -10,11 +10,11 @@ import Login from './pages/Login';
 import VerifyEmail from './pages/VerifyEmail';
 import ResetPassword from './pages/ResetPassword';
 import NewPassword from './pages/NewPassword';
-import Dashboard from './pages/dashboard/Dashboard';
+import Dashboard from './pages/dashboard';
 import Scheduler from './pages/Scheduler';
 import Config from './pages/Config';
-import Admin from './pages/admin/Admin';
-import Settings from './pages/settings/Settings';
+import Admin from './pages/admin';
+import Settings from './pages/settings';
 import NotFound from './pages/NotFound';
 import NoAccess from './pages/NoAccess';
 
@@ -22,11 +22,11 @@ import NoAccess from './pages/NoAccess';
 // checks auth and redirects to login page if not authenticated
 // checks user role and disallows access to certain pages
 // adds wrapper to rendered route
-function PrivateRoute({ component: Component, wrapper: Wrapper, ...rest }) {
+const PrivateRoute = ({ component: Component, wrapper: Wrapper, ...rest }) => {
   const isAuth = rest.auth.isAuthenticated();
 
   if (!isAuth || !rest.requiredRole) {
-    return <Route {...rest} render={props => isAuth ? <Wrapper><Component {...rest} /></Wrapper> : <Redirect to="/login" />} />
+    return <Route {...rest} render={props => isAuth ? <Wrapper><Component {...rest} /></Wrapper> : <Redirect to="/login" />} />;
   };
 
   return <Route {...rest} render={props => rest.auth.isAuthorized(rest.requiredRole) ? <Wrapper><Component {...rest} /></Wrapper> : <NoAccess />} />;
@@ -37,6 +37,12 @@ function getHomeRoute(auth) {
   const role = auth.getRole();
   return (role === 'CUSTOMER') ? <Redirect to="/scheduler" /> : <Redirect to="/dashboard" />;
 }
+
+// wraps react-router `Route` component
+// check auth and redirects to home page if already authenticated
+const PublicOnlyRoute = ({ component: Component, auth, ...rest }) => {
+  return <Route {...rest} render={({ match }) => auth.isAuthenticated() ? getHomeRoute(auth) : <Component auth={auth} match={match } {...rest} />} />;
+};
 
 // for the page body below the fixed width navbar
 const BelowNav = styled.div`
@@ -49,11 +55,11 @@ const Router = ({ auth }) => (
       <Route path="/(dashboard|scheduler|config|admin|settings)/" render={() => <Navbar auth={auth} />} />
       <Switch>
         <Route exact path="/" render={() => auth.isAuthenticated() ? getHomeRoute(auth) : <Redirect to="/login" />} />
-        <Route path="/login" render={() => auth.isAuthenticated() ? getHomeRoute(auth) : <Login auth={auth} />} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/reset-password" component={ResetPassword} />
-        <Route path="/new-password/:token" component={NewPassword} />
-        <Route path="/verify-email/:token" component={VerifyEmail} />
+        <PublicOnlyRoute path="/login" component={Login} auth={auth} />
+        <PublicOnlyRoute path="/signup" component={Signup} auth={auth} />
+        <PublicOnlyRoute path="/reset-password" component={ResetPassword} auth={auth} />
+        <PublicOnlyRoute path="/new-password/:token" component={NewPassword} auth={auth} />
+        <PublicOnlyRoute path="/verify-email/:token" component={VerifyEmail} auth={auth} />
         <PrivateRoute path="/dashboard" component={Dashboard} auth={auth} requiredRole="OPERATOR" wrapper={BelowNav} />
         <PrivateRoute path="/scheduler" component={Scheduler} auth={auth} wrapper={BelowNav} />
         <PrivateRoute path="/config" component={Config} auth={auth} requiredRole="OPERATOR" wrapper={BelowNav} />

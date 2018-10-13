@@ -8,8 +8,8 @@ import { FormPage, FormBox, FormTitle, FormInput, FormSubmit } from '../componen
 import Logo from '../components/Logo';
 
 const VERIFY_EMAIL = gql`
-  mutation verifyEmail($verifyToken: String!) {
-    verifyEmail(verifyToken: $verifyToken)
+  mutation verifyEmail($input: VerifyEmailInput!) {
+    verifyEmail(input: $input)
   }
 `;
 
@@ -28,7 +28,7 @@ export default function VerifyEmail(props) {
   const verifyToken = props.match.params.token;
 
   return (
-    <Mutation mutation={VERIFY_EMAIL} variables={{ verifyToken }}>
+    <Mutation mutation={VERIFY_EMAIL} variables={{ input: { verifyToken } }}>
       {(verifyEmail, { error, data }) => {
         return (
           <InvokeVerifyEmail verifyEmail={verifyEmail}>

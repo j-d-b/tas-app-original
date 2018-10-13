@@ -16,9 +16,9 @@ const LoginLink = styled(Link)`
   }
 `;
 
-const signupMutation = gql`
-  mutation addUser($password: String!, $details: AddUserInput!) {
-    addUser(password: $password, details: $details) {
+const SIGN_UP = gql`
+  mutation addUser($input: AddUserInput!) {
+    addUser(input: $input) {
       name
     }
   }
@@ -40,8 +40,8 @@ class Signup extends React.Component {
     event.preventDefault();
     addUser({
       variables: {
-        password: this.state.password,
-        details: {
+        input: {
+          password: this.state.password,
           email: this.state.email,
           name: this.state.name,
           company: this.state.company
@@ -57,7 +57,7 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <Mutation mutation={signupMutation} onCompleted={this.onSuccess}>
+      <Mutation mutation={SIGN_UP} onCompleted={this.onSuccess}>
         {(addUser, { error, data }) => (
           <FormPage>
             <Logo />
@@ -65,10 +65,38 @@ class Signup extends React.Component {
               <FormTitle>Sign Up</FormTitle>
 
               <form onSubmit={e => this.handleSubmit(addUser, e)}>
-                <FormInput name="name" type="text" value={this.state.name} placeholder="Full Name" onChange={this.handleInputChange} required />
-                <FormInput name="email" type="email" value={this.state.email} placeholder="Email Address" onChange={this.handleInputChange} required />
-                <FormInput name="password" type="password" value={this.state.password} placeholder="Password" onChange={this.handleInputChange} required />
-                <FormInput name="company" type="text" value={this.state.company} placeholder="Company" onChange={this.handleInputChange} required />
+                <FormInput
+                  name="name"
+                  type="text"
+                  value={this.state.name}
+                  placeholder="Full Name"
+                  onChange={this.handleInputChange}
+                  required
+                />
+                <FormInput
+                  name="email"
+                  type="email"
+                  value={this.state.email}
+                  placeholder="Email Address"
+                  onChange={this.handleInputChange}
+                  required
+                />
+                <FormInput
+                  name="password"
+                  type="password"
+                  value={this.state.password}
+                  placeholder="Password"
+                  onChange={this.handleInputChange}
+                  required
+                />
+                <FormInput
+                  name="company"
+                  type="text"
+                  value={this.state.company}
+                  placeholder="Company"
+                  onChange={this.handleInputChange}
+                  required
+                />
                 <FormSubmit type="submit" value="Sign Up" />
               </form>
 

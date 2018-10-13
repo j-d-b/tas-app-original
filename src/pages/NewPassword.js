@@ -7,9 +7,9 @@ import jwtDecode from 'jwt-decode';
 import { FormPage, FormBox, FormTitle, FormInput, FormSubmit } from '../components/Form';
 import Logo from '../components/Logo';
 
-const newPassMutation = gql`
-  mutation resetPass($newPassword: String!, $token: String!) {
-    resetPass(newPassword: $newPassword, resetToken: $token)
+const RESET_PASSWORD = gql`
+  mutation resetPassword($input: ResetPasswordInput!) {
+    resetPassword(input: $input)
   }
 `;
 
@@ -26,12 +26,17 @@ export default class NewPassword extends React.Component {
 
   handleSubmit(resetPassword, event) {
     event.preventDefault();
-    resetPassword({ variables: { newPassword: this.state.newPassword, token: this.props.match.params.token }});
+    resetPassword({ variables: { input: { newPassword: this.state.newPassword, resetToken: this.props.match.params.token } } });
+    this.setState({ newPassword: '' });
+  }
+
+  componentDidMount() {
+    console.log(this.props);
   }
 
   render() {
     return (
-      <Mutation mutation={newPassMutation}>
+      <Mutation mutation={RESET_PASSWORD}>
         {(resetPassword, { error, data }) => (
           <FormPage>
             <Logo />
@@ -39,7 +44,14 @@ export default class NewPassword extends React.Component {
               <FormTitle>Set New Password</FormTitle>
 
               <form onSubmit={e => this.handleSubmit(resetPassword, e)}>
-                <FormInput name="newPassword" type="password" value={this.state.newPassword} placeholder="New Password" onChange={this.handleInputChange} required/>
+                <FormInput
+                  name="newPassword"
+                  type="password"
+                  value={this.state.newPassword}
+                  placeholder="New Password"
+                  onChange={this.handleInputChange}
+                  required
+                />
                 <FormSubmit type="submit" value="Change Password" />
               </form>
 

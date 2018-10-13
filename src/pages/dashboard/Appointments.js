@@ -40,7 +40,7 @@ export default function AppointmentList(props) {
   const query = props.my ? myApptsQuery : getApptsQuery;
   const variables = props.where || {};
   return (
-    <Query query={query} variables={props.where}>
+    <Query query={query} variables={variables}>
       {({ loading, error, data }) => {
         if (loading) return <p>Loading...</p>;
         if (error) {
